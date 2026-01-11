@@ -1,0 +1,61 @@
+package slidingWindow;
+
+import java.util.HashSet;
+
+public class L219ContainsDuplicate11 {
+
+    /**
+     * This method checks whether there are two equal numbers
+     * such that their index difference is at most k.
+     */
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+
+        // HashSet to store elements in the current sliding window
+        HashSet<Integer> set = new HashSet<>();
+
+        // Traverse the array
+        for (int i = 0; i < nums.length; i++) {
+
+            /*
+             * Maintain window size of k
+             * If index difference becomes more than k,
+             * remove the element which is out of the window
+             */
+            if (i > k) {
+                set.remove(nums[i - k - 1]);
+            }
+
+            /*
+             * If current element already exists in the set,
+             * it means duplicate is found within distance k
+             */
+            if (set.contains(nums[i])) {
+                return true;
+            }
+
+            // Add current element to the sliding window
+            set.add(nums[i]);
+        }
+
+        // No duplicate found within distance k
+        return false;
+    }
+
+    /**
+     * Main method to test the logic in Eclipse
+     */
+    public static void main(String[] args) {
+
+        int[] nums1 = {1, 2, 3, 1};
+        int k1 = 3;
+        System.out.println(containsNearbyDuplicate(nums1, k1)); // true
+
+        int[] nums2 = {1, 0, 1, 1};
+        int k2 = 1;
+        System.out.println(containsNearbyDuplicate(nums2, k2)); // true
+
+        int[] nums3 = {1, 2, 3, 1, 2, 3};
+        int k3 = 2;
+        System.out.println(containsNearbyDuplicate(nums3, k3)); // false
+    }
+}
